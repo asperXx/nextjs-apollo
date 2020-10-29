@@ -1,12 +1,25 @@
-// const apiCall = () => {
-//   return new Promise((res, rej) => {
-//     setTimeout(() => {
-//       res({ testingData: "just do it"});
-//     }, 2000);
-//   })
-// }
+import axios from 'axios'
 
-const Portfolios = (props) => {
+const fetchPortfolios = () => {
+  const query = `
+    query Portfolios {
+      portfolios {
+        _id,
+        title,
+        company,
+        companyWebsite
+        location
+        jobTitle
+        description
+      }
+    }`;
+  return axios.post('http://localhost:3000/graphql', { query })
+    .then(({data: graph}) => graph.data)
+    .then(data => data.portfolios)
+}
+
+const Portfolios = ({portfolios}) => {
+  console.log(portfolios)
   return (
     <>
       <section className="section-title">
@@ -23,10 +36,7 @@ const Portfolios = (props) => {
               <div className="card-body">
                 <h5 className="card-title">Card title</h5>
                 <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p className="card-text fs-2">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
+                <p className="card-text fs-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               </div>
               <div className="card-footer no-border">
                 <small className="text-muted">Last updated 3 mins ago</small>
@@ -38,10 +48,7 @@ const Portfolios = (props) => {
               <div className="card-body">
                 <h5 className="card-title">Card title</h5>
                 <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p className="card-text fs-2 ">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
+                <p className="card-text fs-2 ">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               </div>
               <div className="card-footer no-border">
                 <small className="text-muted">Last updated 3 mins ago</small>
@@ -53,10 +60,7 @@ const Portfolios = (props) => {
               <div className="card-body">
                 <h5 className="card-title">Card title</h5>
                 <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p className="card-text fs-2 ">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
+                <p className="card-text fs-2 ">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               </div>
               <div className="card-footer no-border">
                 <small className="text-muted">Last updated 3 mins ago</small>
@@ -66,12 +70,14 @@ const Portfolios = (props) => {
         </div>
       </section>
     </>
-  );
-};
+  )
+}
 
-// Portfolios.getInitialProps = async () => {
-//   const data = await apiCall();
-//   return { ...data };
-// }
+Portfolios.getInitialProps = async () => {
+  const portfolios = await fetchPortfolios();
+  return { portfolios };
+}
+
+
 
 export default Portfolios;

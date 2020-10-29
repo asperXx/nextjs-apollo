@@ -8,7 +8,6 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <div className="">
       <AppNavbar />
-      { pageProps.appData}
       {Component.name === "Home" && <Hero />}
       <div className="container">
         <Component {...pageProps} />
